@@ -1,9 +1,18 @@
-import requests , json
+import requests
+import json
 from program import mostrar
+from app import LOCAl_IP
+from app import DEFAULT_PORT
+import socket
 
-URL = 'http://192.168.1.61:5000'
-response = requests.get(URL)
-#print(response.text)
 
-tablero = response.json()
-mostrar(tablero)
+def main():
+    URL = f'http://{LOCAl_IP}:{DEFAULT_PORT}/'
+    print(URL)
+    response = requests.get(URL)
+    tablero = response.json()
+    mostrar(tablero)
+
+
+if __name__ == '__main__':
+    main()
