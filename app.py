@@ -2,19 +2,9 @@ from flask import Flask
 import sys
 import program
 import socket
-
 # Flask App
 app = Flask(__name__)
 # Crea un tablero para todo el tiempo de vida de la app
-tablero = program.init()
-
-
-@app.route("/")
-def mostrar_tablero():
-    # Traemos el tablero y lo actualizamos cada que se ejecute la raíz
-    global tablero
-    tablero = program.actualizar(tablero)
-    return f"{tablero}"
 
 
 def get_ipv4_address():
@@ -33,9 +23,21 @@ def get_ipv4_address():
 LOCAl_IP = get_ipv4_address()
 DEFAULT_PORT = 5000
 
+tablero = program.init()
 
-def main():
-    pass
+
+@app.route("/")
+def mostrar_tablero():
+    global tablero
+    return f'{tablero}'
+
+
+# Not working yet
+@app.route("/actualizar")
+def actualizar_tablerto():
+    global tablero
+    tablero = program.actualizar(tablero)
+    return f'{tablero}'
 
 
 if __name__ == "__main__":

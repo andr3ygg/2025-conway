@@ -3,16 +3,13 @@ from random import randint
 from time import sleep
 
 
-config = {
-    "ancho": 7,
-    "alto": 7
-}
+config = {"ancho": 7, "alto": 7}
 
 
 # Genera una lista de las dimensiones indicadas en config
 def init():
     def estado():
-        return 0 if randint(0, 5) else 1 # ?
+        return 0 if randint(0, 5) else 1
 
     tablero = []
     for i in range(config["alto"]):
@@ -33,7 +30,7 @@ def mostrar(tablero):
 
 
 def actualizar(anterior):
-    #sumas = [[] for line in range(len(anterior))]
+    # sumas = [[] for line in range(len(anterior))]
     siguiente = [[] for line in range(len(anterior))]
 
     def suma_alrededor(y, x):
@@ -47,14 +44,29 @@ def actualizar(anterior):
             return y if y < config["alto"] else 0
         """
         suma = 0
+
         for i in range(y - 1, y + 2):
             for j in range(x - 1, x + 2):
-                if i < 0 or i >= config["alto"] or j < 0 or j >= config["ancho"] or (i == y and j == x):
+                if (
+                    i < 0
+                    or i >= config["alto"]
+                    or j < 0
+                    or j >= config["ancho"]
+                    or (i == y and j == x)
+                ):
                     continue
                     # Si pasa del limite, entonces lo ignora
                 suma += anterior[i][j]
                 # Si no es una esquina, entonces suma todo lo de alrededor
-        
+        """
+        for i in range(y - 1, y + 2):
+            for j in range(x - 1, x + 2):
+                ni = i % config["alto"]
+                nj = j % config["ancho"]
+                if ni == y and nj == x:
+                    continue  # No se cuenta a sí misma
+                suma += anterior[ni][nj]
+        """
         return suma
 
     for y in range(len(anterior)):
@@ -65,20 +77,23 @@ def actualizar(anterior):
                 nuevo_estado = anterior[y][x]
             if vecinos == 3:
                 nuevo_estado = 1
-
-            #sumas[y].append(vecinos)
             siguiente[y].append(nuevo_estado)
-
-
     return siguiente
 
 
 def ejecutar():
     tablero = init()
     mostrar(tablero)
-    tablero = actualizar(tablero)
-    print(tablero)
+    while True:
+        tablero = actualizar(tablero)
+        mostrar(tablero)
+        sleep(1)
+        os.system("cls" if os.name == "nt" else "clear")
 
 
 def main():
     ejecutar()
+
+
+if __name__ == "__main__":
+    main()

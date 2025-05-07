@@ -8,10 +8,9 @@ import socket
 
 def main():
     URL = f'http://{LOCAl_IP}:{DEFAULT_PORT}/'
-    print(URL)
     response = requests.get(URL)
     tablero = response.json()
-    mostrar(tablero)
+    print(tablero)
 
 
 if __name__ == '__main__':
