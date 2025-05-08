@@ -19,14 +19,18 @@ def init():
 
 
 def mostrar(tablero):
+    new_board = []
     for linea in tablero:
         for cell in linea:
             dibujo = "·" if not cell else "*"
             # Si es 0, lo pone como punto
             # Si es cualquier cosa excepto 0, lo pone como *
             print(f"{dibujo}", end="")
+            new_board.append([dibujo])
         print()
     print()
+    
+    return new_board
 
 
 def actualizar(anterior):
@@ -56,7 +60,10 @@ def actualizar(anterior):
                 ):
                     continue
                     # Si pasa del limite, entonces lo ignora
-                suma += anterior[i][j]
+                try:
+                    suma += anterior[i][j]
+                except Exception as err:
+                    print(err)
                 # Si no es una esquina, entonces suma todo lo de alrededor
         """
         for i in range(y - 1, y + 2):
